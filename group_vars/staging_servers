@@ -1,0 +1,3 @@
+---
+ansible_user : server1 
+ansible_ssh_private_key_file : /home/server1/.ssh/authorized_keys.pem
