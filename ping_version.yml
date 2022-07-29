@@ -6,3 +6,5 @@
   tasks:
   - name: Ping my servers
     ping: 
+  - name: LINUX version 
+    debug: var=ansible_os_family   #####ansible all -m setup 
