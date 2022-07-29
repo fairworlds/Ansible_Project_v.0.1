@@ -1,26 +1,61 @@
 ---
 - name: Install Apache and Upload Web Page
-  hosts: all
+  hosts: staging_web
   become: yes
+  
+  vars: 
+    source_folder: ./MyWebSite
+    destin_folder: /var/www/html
+    
 
-  vars:
-    source_file: ./NameFile/index.html
-    destin_file: /var/www/html
+  tasks:
+  - name: LINUX version 
+    debug: var=ansible_os_family 
 
-  tasks: 
-  - name: Install Apache WebServer for RedHat
-    yum: name=httpd state=latest 
-      
-  - name: Install Apache WebServer for Debian
-    apt: name=apache2 state=latest
 
-  - name: Copy NameFile to Servers ###копирование файла на сервер
-    copy: src={{ source_file }}  dest={{ destin_file }}  mode=0555
-    notify: Restart Apache ###Для хандлерс перезагрузка по команде 
+  - block:   #     ======block for REDHAT=======
 
-  - name: Start WebServer and make it aneble on boot
-    service: name=httpd state=started enable=yes 
+     - name: Install Apache WebServer for RedHat
+       yum: name=httpd state=latest 
+           
+     - name: Start Web service RedHat
+       service: name=httpd state=started enabled=yes
+   
+    when: ansible_os_family == "RedHat"
 
+  - block:   #     ======block for Debian=======
+    
+      - name: Install Apache WebServer for Debian
+        apt: name=apache2 state=latest
+
+      - name:  Start Web service Debian
+        service: name=apache2 state=started enabled=yes
+     
+    when: ansible_os_family == "Debian"
+
+  - name: Copy HomePage to Servers ###копирование файла на сервер
+    copy: src={{ source_folder }}/{{ item }} dest={{ destin_folder }}  mode=0555
+ 
+ 
+   # with_fileglob: "{{ source_folder }}"/*.*     # скопировать всё 1 способ
+ 
+ 
+ 
+ 
+  #   loop:                          #копирование файлов   2 способ 
+  #     - "index.html"
+  #     - "jenskiii.png"
+  #     - "llllllll.png"
+     
+    notify: 
+       - Restart Apache RedHat        ###Для хандлерс перезагрузка по команде 
+       - Restart Apache Debian
+       
   handlers:
-  - name: Restart Apache
-    service: name=httpd state=restarted 
+    - name: Restart Apache RedHat     # перезагрузка
+      service: name=httpd state=restarted 
+      when: ansible_os_family == "RedHat"
+
+    - name: Restart Apache Debian     # перезагрузка
+      service: name=apache2 state=restarted 
+      when: ansible_os_family == "Debian"

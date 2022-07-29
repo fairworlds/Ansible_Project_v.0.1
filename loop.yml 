@@ -1,0 +1,31 @@
+---
+- name: Loops Playbook
+  hosts: staging_web
+  become: yes
+
+
+- tasks:
+  - name: Say Hello to All
+    debug: msg="Hello {{ item }}" 
+    loop: 
+        - "Server"
+        - "Servers"
+        - "Linux"
+  
+  - name: Loop Until
+    shell: echo -n Q >>myfile.txt && cat myfile.txt  ### Запись файла и вывод на экран 
+    register: output 
+    delay: 5        #сколько секунд 
+    retries: 10     #сколько раз 
+    until: output.stdout.find("QQQQ") == false #до того как 
+
+  - name: Print Final Output 
+    debug:
+      var: output.stdout  
+
+ # - name: Install many packaged
+ #   apt: name={{ item  }} state=installed
+ #  with_items:
+ #     - python
+ #     - tree
+ #     - mysql-client
