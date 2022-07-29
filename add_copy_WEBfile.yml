@@ -1,0 +1,26 @@
+---
+- name: Install Apache and Upload Web Page
+  hosts: all
+  become: yes
+
+  vars:
+    source_file: ./NameFile/index.html
+    destin_file: /var/www/html
+
+  tasks: 
+  - name: Install Apache WebServer for RedHat
+    yum: name=httpd state=latest 
+      
+  - name: Install Apache WebServer for Debian
+    apt: name=apache2 state=latest
+
+  - name: Copy NameFile to Servers ###копирование файла на сервер
+    copy: src={{ source_file }}  dest={{ destin_file }}  mode=0555
+    notify: Restart Apache ###Для хандлерс перезагрузка по команде 
+
+  - name: Start WebServer and make it aneble on boot
+    service: name=httpd state=started enable=yes 
+
+  handlers:
+  - name: Restart Apache
+    service: name=httpd state=restarted 
