@@ -1,7 +1,11 @@
 ---
-ansible_user : server4 
-ansible_ssh_private_key_file : /home/server4/.ssh/authorized_keys.pem
-
- 
 ansible_user : server5 
 ansible_ssh_private_key_file : /home/server5/.ssh/authorized_keys.pem
+ansible_become : yes  
+ansible_become_password : 55555r
+
+environment                  : PRODUCTION 
+owner                        : Tkharnavtcov.T
+
+
+

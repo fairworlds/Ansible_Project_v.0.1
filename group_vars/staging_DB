@@ -1,3 +1,8 @@
 ---
 ansible_user : server2 
 ansible_ssh_private_key_file : /home/server2/.ssh/authorized_keys.pem
+ansible_become : yes  
+ansible_become_password : 55555w
+
+environment                  : PRODUCTION 
+owner                        : Tkharnavtcov.T

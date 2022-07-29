@@ -1,0 +1,29 @@
+---
+- name: Debug test
+  hosts: all
+  become: yes
+
+  vars:
+    message: Gotovo
+    message2: Vjpolneno 
+    secret : tttttttttttt
+
+  tasks:
+  - name: Print secret 
+    debug: 
+      var: secret 
+  
+  - debug:
+      msg:  "primer parametra: {{ secret  }}" 
+
+  - debug:
+      msg: "Vladelec hosta: -->{{ owner }}<--"
+
+  - set_fact: full_message="{{ message }} {{ message2 }} from {{ owner  }}"
+  - debug:
+      var: full_message 
+  - shell: uptime 
+    register: results 
+  - debug:
+      var: results.stdout 
+  
