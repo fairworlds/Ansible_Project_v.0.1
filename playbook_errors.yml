@@ -1,0 +1,23 @@
+---
+- name: Errors bags
+  hosts: all
+  any_errors_fatal: true   #Любая ошибка фаталька и всё завершается 
+  become: yes
+
+  tasks:
+  - name: tasks nomber 1
+    apt: name=treeeee state=latest
+    ignore_errors: yes    ### игнор ошибки и продолжение выполнение дальше тасков
+
+  - name: tasks nomber 2
+    shell: echo Hello World System   ### показать результат 
+    register: results 
+    #failed_when: results.rc == 0   #етюрный код да или нет 
+    #failed_when: "'World' in results.stdout" ### контроль и нахождение ошибок 
+
+
+  - debug:
+        var: results    ### показать результат 
+
+  - name: tasks nomber 3
+    shell: echo Cool system 

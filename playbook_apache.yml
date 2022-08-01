@@ -4,4 +4,4 @@
   become: yes
 
   roles:
-    - { role: install_apache_servers, when: ansible_system == 'Linux'}
+    - { role: install_apache_servers, when: ansible_system == 'Linux'} 
