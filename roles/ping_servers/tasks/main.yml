@@ -1,10 +1,8 @@
 ---
-- name: Test Connection to my servers
-  hosts: all
-  become: yes
-
-  tasks:
+# tasks file for ping_servers
+ 
   - name: Ping my servers
     ping: 
+ 
   - name: LINUX version 
     debug: var=ansible_os_family   #####ansible all -m setup 

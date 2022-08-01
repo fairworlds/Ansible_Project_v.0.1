@@ -1,0 +1,7 @@
+---               ###ansible-galaxy init ...
+- name: Install Apache and Upload Web Page
+  hosts: staging_web
+  become: yes
+  
+  roles:
+    - { role: deploy_apache_web, when: ansible_system == 'Linux'}

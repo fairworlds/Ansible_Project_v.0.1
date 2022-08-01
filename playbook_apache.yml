@@ -1,0 +1,7 @@
+---
+- name: Install default Apache Web Server
+  hosts: staging_web                     ### "{{ MYHOST }}" через переменные extra vars ansible-playbook playbook_apache.yml --extra-var "Myhosts=staging_web"и тд 
+  become: yes
+
+  roles:
+    - { role: install_apache_servers, when: ansible_system == 'Linux'}
