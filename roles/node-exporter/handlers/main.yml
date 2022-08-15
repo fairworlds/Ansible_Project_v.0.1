@@ -1,0 +1,7 @@
+---
+# handlers file for roles/node-exporter
+- name: service started
+  systemd:
+    name: node_exporter
+    state: started
+    enabled: yes
