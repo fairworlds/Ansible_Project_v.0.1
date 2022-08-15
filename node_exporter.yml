@@ -1,0 +1,7 @@
+---
+- name: Install Node_exporter
+  hosts: prod_server2                     
+  become: yes
+
+  roles:
+    - role: node-exporter
